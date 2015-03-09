@@ -13,7 +13,7 @@ public class ServeurEcho {
             PrintWriter writer;
             BufferedReader reader;
 
-            System.out.println("Serveur echo en attente de connection!");
+            // System.out.println("Serveur echo en attente de connection!");
             socket = socketServeur.accept();
 
             writer = new PrintWriter(
@@ -27,7 +27,7 @@ public class ServeurEcho {
 
             System.out.println("Client connecté!");
 
-            writer.println("Entrer \"Q\" pour terminer!");
+            // writer.println("Entrer \"Q\" pour terminer!");
             writer.flush();
             boolean fini = false;
             String ligne = null;
