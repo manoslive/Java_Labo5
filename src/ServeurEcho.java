@@ -12,8 +12,8 @@ public class ServeurEcho {
             ServerSocket socketServeur = new ServerSocket(port);
             PrintWriter writer;
             BufferedReader reader;
-
-            socket = socketServeur.accept();
+            Thread francois = new Thread(new Terminateur());
+            francois.start();
 
             writer = new PrintWriter(
                     new OutputStreamWriter(
@@ -31,24 +31,16 @@ public class ServeurEcho {
             boolean fini = false;
             String ligne = null;
 
-            while (!fini) {
-                ligne = reader.readLine();
-                if (ligne != null) {
-                    writer.println(ligne);
-                    writer.flush();
+            while (francois.isAlive()) {
 
-                    if (ligne.trim().equalsIgnoreCase("Q")) {
-                        System.out.println("Client deconnecte!");
-                        fini = true;
-                    }
-                }
+                socket = socketServeur.accept();
+                Connection client = new Connection();
+            }
                 writer.close();
                 reader.close();
-
                 socket.close();
                 socketServeur.close();
 
-            }
         }
         catch (IOException ioe) {
             System.err.println(ioe);

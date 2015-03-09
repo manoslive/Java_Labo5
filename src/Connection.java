@@ -43,7 +43,7 @@ public class Connection{
                     writer.println(texte);
                     writer.flush();
 
-                    if(texte.trim().equalsIgnoreCase("Q"))
+                    if(texte.trim().isEmpty())
                     {
                         fini = true;
                     }
@@ -70,6 +70,6 @@ public class Connection{
     public void main(String[] args) throws IOException
     {
         Connection app = new Connection();
-        app.run("localhost", 7);
+        app.run("localhost", 666);
     }
 }
