@@ -4,6 +4,7 @@
 
 import java.io.*;
 import java.net.*;
+import java.util.concurrent.TimeoutException;
 
 public class ServeurEcho {
     public void run(int port) {
@@ -11,7 +12,6 @@ public class ServeurEcho {
             Socket socket = new Socket();
             ServerSocket socketServeur = new ServerSocket(port);
             PrintWriter writer;
-            BufferedReader reader;
             Thread francois = new Thread(new Terminateur());
             francois.start();
 
@@ -19,37 +19,36 @@ public class ServeurEcho {
                     new OutputStreamWriter(
                             socket.getOutputStream()));
 
-            reader = new BufferedReader(
-                    new InputStreamReader(
-                            socket.getInputStream()));
-
-
-            System.out.println("Client connecté!");
 
             writer.println("Entrer \"Q\" pour terminer!");
             writer.flush();
             boolean fini = false;
             String ligne = null;
+            socket.setSoTimeout(500);
 
             while (francois.isAlive()) {
+                try {
+                    socket = socketServeur.accept();
+                    System.out.println("Client connecté!");
+                    Thread client = new Thread(new Connection(socket));
+                    client.setDaemon(true);
+                    client.start();
+                } catch (SocketTimeoutException ste) {
 
-                socket = socketServeur.accept();
-                Connection client = new Connection();
+                }
             }
-                writer.close();
-                reader.close();
-                socket.close();
-                socketServeur.close();
+            writer.close();
+            socket.close();
+            socketServeur.close();
 
-        }
-        catch (IOException ioe) {
+        } catch (IOException ioe) {
             System.err.println(ioe);
             ioe.printStackTrace();
         }
     }
-    public void main()
-    {
+
+    public void main() {
         ServeurEcho serveur = new ServeurEcho();
-        serveur.run(666);
+        serveur.run(666); // Doom ;)
     }
 }

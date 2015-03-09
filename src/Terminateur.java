@@ -23,9 +23,4 @@ public class Terminateur implements Runnable {
             ioe.printStackTrace();
         }
     }
-    public static void main(String[] args)
-    {
-        Terminateur arnold = new Terminateur();
-        arnold.run();
-    }
 }
