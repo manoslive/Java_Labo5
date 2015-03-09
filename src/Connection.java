@@ -1,5 +1,5 @@
 /**
- * Created by Emmanuel on 2015-02-25.
+ * Created by Ninja et Shiawn Croopers on 2015-03-09.
  */
 
 import java.io.*;
@@ -29,11 +29,15 @@ public class Connection implements Runnable {
                 writer.println(ligne);
                 writer.flush();
             } while (!ligne.isEmpty());
+            System.out.println("Client deconnecte!");
             socket.close();
             writer.close();
             reader.close();
-        } catch (IOException ioe) {
+        }
+        catch (IOException ioe) {
             System.exit(1);
+        } catch (NullPointerException npe) {
+            System.err.println("Erreur: le client a quitter sans fermer la connection!");
         }
     }
 }

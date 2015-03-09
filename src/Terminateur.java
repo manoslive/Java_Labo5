@@ -1,6 +1,7 @@
 /**
- * Created by Emmanuel on 2015-02-18.
+ * Created by Ninja et Shiawn Croopers on 2015-03-09.
  */
+
 
 import java.io.*;
 
@@ -16,11 +17,12 @@ public class Terminateur implements Runnable {
                 // On trim la scrap
                 ligne = ligneSansTrim.trim();
             }
-            while (!ligne.toLowerCase().equals("q"));
-
+            while (!ligne.equalsIgnoreCase("q"));
+            System.exit(1);
         } catch (IOException ioe) {
             System.err.println(ioe);
             ioe.printStackTrace();
+            System.exit(1);
         }
     }
 }

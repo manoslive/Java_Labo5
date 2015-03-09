@@ -1,6 +1,7 @@
 /**
- * Created by Emmanuel on 2015-02-25.
+ * Created by Ninja et Shiawn Croopers on 2015-03-09.
  */
+
 
 import java.io.*;
 import java.net.*;
@@ -9,27 +10,20 @@ import java.util.concurrent.TimeoutException;
 public class ServeurEcho {
     public void run(int port) {
         try {
-            Socket socket = new Socket();
+            Socket socket = null;
             ServerSocket socketServeur = new ServerSocket(port);
             PrintWriter writer;
             Thread francois = new Thread(new Terminateur());
             francois.start();
 
-            writer = new PrintWriter(
-                    new OutputStreamWriter(
-                            socket.getOutputStream()));
-
-
-            writer.println("Entrer \"Q\" pour terminer!");
-            writer.flush();
             boolean fini = false;
             String ligne = null;
-            socket.setSoTimeout(500);
-
+            // socket.setSoTimeout(500);
+            System.out.println("Entrer \"Q\" pour terminer!");
             while (francois.isAlive()) {
                 try {
                     socket = socketServeur.accept();
-                    System.out.println("Client connecté!");
+                    System.out.println("Client connecte!");
                     Thread client = new Thread(new Connection(socket));
                     client.setDaemon(true);
                     client.start();
@@ -37,7 +31,7 @@ public class ServeurEcho {
 
                 }
             }
-            writer.close();
+            // writer.close();
             socket.close();
             socketServeur.close();
 
@@ -47,7 +41,7 @@ public class ServeurEcho {
         }
     }
 
-    public void main() {
+    public static void main(String[] args) {
         ServeurEcho serveur = new ServeurEcho();
         serveur.run(666); // Doom ;)
     }
